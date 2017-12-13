@@ -1,0 +1,18 @@
+{% extends 'inventory/base.html' %}
+
+{% block content %}
+    <div class="item">
+        {% if item.created_date %}
+            <div class="date">
+                {{ item.created_date }}
+            </div>
+        {% endif %}
+        {% if user.is_authenticated %}
+            <a class="btn btn-default" href="{% url 'item_edit' pk=item.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
+            <a class="btn btn-default" href="{% url 'item_remove' pk=item.pk %}"><span class="glyphicon glyphicon-remove"></span></a>
+        {% endif %}
+        <h1>{{ item.title }}</h1>
+        <p>{{ item.description|linebreaksbr }}</p>
+        <p>{{ item.container|linebreaksbr }}</p>
+    </div>
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends 'inventory/base.html' %}
+
+{% block content %}
+    <form type="get" action="." style="margin: 0">
+      <input id="search_box" type="text" name="search_box" placeholder="Filter by...">
+      <button id="search_submit" type="submit">Submit</button>
+    </form>
+    {% for item in items %}
+        <div class="item">
+            <h1><a href="{% url 'item_detail' pk=item.pk %}">{{ item.title }}</a></h1>
+            <p>Description: {{ item.description|linebreaksbr }}</p>
+            <p>Container: {{ item.container|linebreaksbr }}</p>
+            <div class="date">
+                <p>Last Modified: {{ item.created_date }}</p>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}
