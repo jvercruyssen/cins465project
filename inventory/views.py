@@ -7,6 +7,8 @@ from .models import Item
 from django.utils import timezone
 from .forms import ItemForm
 from django.db.models import Q
+from django.contrib.auth import login, authenticate
+from django.contrib.auth.forms import UserCreationForm
 
 # Create your views here.
 @login_required
@@ -54,3 +56,17 @@ def item_remove(request, pk):
     item = get_object_or_404(Item, pk=pk)
     item.delete()
     return redirect('item_list')
+
+def signup(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            raw_password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=raw_password)
+            login(request, user)
+            return redirect('item_list')
+    else:
+        form = UserCreationForm()
+    return render(request, 'registration/signup.html', {'form': form})
